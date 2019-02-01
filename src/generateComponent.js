@@ -28,11 +28,25 @@ import {
 } from 'react-native-svg';
 
 export default function ${componentName}(props) {
+
+  const {fill, stroke} = props;
+
+  const shapeProps = {}
+  if(fill){
+    shapeProps.fill = fill;
+  }
+  if(stroke){
+    shapeProps.stroke = stroke;
+  }
+
+  delete props.stroke;
+  delete props.fill;
+
   return (
 ${svgOutput
-  .split('\n')
-  .map(line => `    ${line}`)
-  .join('\n')}
+    .split('\n')
+    .map(line => `    ${line}`)
+    .join('\n')}
   );
 }
 `;

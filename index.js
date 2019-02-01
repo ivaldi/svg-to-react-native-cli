@@ -53,7 +53,7 @@ const writeFile = (processedSVG, fileName) => {
     file = path.resolve(process.cwd(), `${fileName}.js`);
   }
 
-  fs.writeFile(file, processedSVG, { flag: args.force ? 'w' : 'wx' }, function(
+  fs.writeFile(file, processedSVG, { flag: args.force ? 'w' : 'wx' }, function (
     err
   ) {
     if (err) {
@@ -82,7 +82,7 @@ const writeFile = (processedSVG, fileName) => {
 };
 
 const runUtil = (fileToRead, fileToWrite) => {
-  fs.readFile(fileToRead, 'utf8', function(err, file) {
+  fs.readFile(fileToRead, 'utf8', function (err, file) {
     if (err) {
       printErrors(err);
       return;
@@ -127,11 +127,18 @@ const runUtil = (fileToRead, fileToWrite) => {
       // Now that we are done with manipulating the node/s we can return it back as a string
       output = body.innerHTML;
 
+
+
       // Convert from HTML to JSX
       // output = converter.convert(output);
       SVGtoJSX(output).then(jsx => {
         // Convert any html tags to react-native-svg tags
         jsx = replaceAllStrings(jsx);
+
+        jsx = jsx.replace('viewBox', '{...props} viewBox')
+        jsx = jsx.replace('"/>', '" {...shapeProps} />')
+
+        console.log(output, jsx);
 
         // Wrap it up in a React component
         jsx = generateComponent(jsx, fileToWrite);
