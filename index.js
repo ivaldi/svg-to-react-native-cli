@@ -138,8 +138,6 @@ const runUtil = (fileToRead, fileToWrite) => {
         jsx = jsx.replace('viewBox', '{...props} viewBox')
         jsx = jsx.replace('"/>', '" {...shapeProps} />')
 
-        console.log(output, jsx);
-
         // Wrap it up in a React component
         jsx = generateComponent(jsx, fileToWrite);
 
